@@ -1,0 +1,39 @@
+-- Retrieve the departments name that have over 50 employees (order descending) 
+SELECT
+cd.department_name, 
+COUNT(*)
+FROM data_sci.employees AS e
+JOIN data_sci.company_department AS cd
+ON e.department_id = cd.id
+GROUP BY cd.department_name
+HAVING COUNT(*) > 50
+ORDER BY 2 DESC
+
+--Subqueries for column value
+SELECT 
+e1.last_name,
+e1.salary, 
+e1.department_id, 
+     (SELECT AVG(e2.salary) from data_sci.emplyees AS e2
+                     WHERE e1.departament_id=e2.departament_id)
+FROM data_sci.employees as e1
+
+-- Subqueries in FROM clauses
+SELECT
+ROUND(AVG(e.salary),2) 
+FROM 
+      (SELECT * from data_sci.employees 
+                       WHERE salary > 10000) AS e
+
+-- Subtotals
+SELECT
+cr.country_name, 
+cr.region_name, 
+COUNT(e.*)
+FROM data_sci.employees AS e
+JOIN data_sci.company_regions AS cr
+ON e.region_id=cr.region_id
+GROUP BY 
+      ROLLUP(cr.country_name, cr.region_name)
+ORDER BY cr.country_name, cr.region_name
+
