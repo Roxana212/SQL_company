@@ -37,3 +37,18 @@ GROUP BY
       ROLLUP(cr.country_name, cr.region_name)
 ORDER BY cr.country_name, cr.region_name
 
+-- Window functions
+SELECT
+departemnt_id, 
+salary, 
+ROUND(AVG(salary) OVER (PARTITION BY department_id, 2)
+FROM data_scr.employees
+
+-- Window functions: the first salary value within each department, ordered by salary in ascending order within each department
+SELECT
+department_id, 
+last_name, 
+salary, 
+FIRST_VALUE(salary) OVER (PARTITION BY department_id ORDER BY salary ASC)
+FROM data_sci.employees
+
